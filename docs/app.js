@@ -1,6 +1,7 @@
 // app.js
 
 let usuarioLogado = null;
+const backendUrl = "https://juroslator-2.onrender.com"; // ✅ URL correta do Render
 
 function showLogin() {
     document.getElementById('loginContainer').style.display = 'block';
@@ -25,7 +26,7 @@ async function login() {
     const username = document.getElementById('loginUser').value;
     const password = document.getElementById('loginPass').value;
 
-    const res = await fetch('https://seu-backend-render.onrender.com/login', {
+    const res = await fetch(`${backendUrl}/login`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({username, password})
@@ -42,7 +43,7 @@ async function cadastrar() {
     const username = document.getElementById('cadastroUser').value;
     const password = document.getElementById('cadastroPass').value;
 
-    const res = await fetch('https://seu-backend-render.onrender.com/register', {
+    const res = await fetch(`${backendUrl}/register`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({username, password})
@@ -65,11 +66,12 @@ async function calcular() {
     const taxa = parseFloat(document.getElementById('taxa').value);
     const tempo = parseFloat(document.getElementById('tempo').value);
 
-    const res = await fetch('https://seu-backend-render.onrender.com/calcular', {
+    const res = await fetch(`${backendUrl}/calcular`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({principal, taxa, tempo, usuario: usuarioLogado})
     });
+
     const data = await res.json();
     document.getElementById('resultado').innerText = `Juros: R$ ${data.juros.toFixed(2)} | Total: R$ ${data.montante_final.toFixed(2)}`;
     document.getElementById('comparacao').innerText = `Desempenho comparado à SELIC: ${data.comparacao.toFixed(2)}%`;
@@ -78,7 +80,7 @@ async function calcular() {
 }
 
 async function carregarHistorico() {
-    const res = await fetch(`https://seu-backend-render.onrender.com/historico?usuario=${usuarioLogado}`);
+    const res = await fetch(`${backendUrl}/historico?usuario=${usuarioLogado}`);
     const historico = await res.json();
 
     const lista = document.getElementById('historico');
@@ -106,7 +108,7 @@ async function carregarHistorico() {
 }
 
 async function deletarAplicacao(id) {
-    await fetch(`https://seu-backend-render.onrender.com/apagar/${id}`, {
+    await fetch(`${backendUrl}/apagar/${id}`, {
         method: 'DELETE'
     });
     carregarHistorico();
@@ -138,5 +140,4 @@ function renderizarGrafico(labels, dados) {
     });
 }
 
-// Inicialização
-showLogin();
+showLogin(); // Inicia com a tela de login
