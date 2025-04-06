@@ -1,50 +1,41 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JurosLator - Login</title>
-  <script defer src="/static/app.js"></script>
-  <link rel="stylesheet" href="/static/style.css" />
-</head>
-<body>
-  <!-- Tela de Login/Cadastro -->
-  <div id="auth-section">
-    <h2>Login / Cadastro</h2>
-    <input type="text" id="username" placeholder="Usuário" />
-    <input type="password" id="password" placeholder="Senha" />
-    <button onclick="login()">Entrar</button>
-    <button onclick="register()">Cadastrar</button>
-    <p id="auth-error"></p>
-  </div>
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
-  <!-- Tela de Cálculo e Histórico (exibida após login) -->
-  <div id="main-section" style="display: none;">
-    <h2>Simulação Financeira</h2>
-    <label>Valor inicial:</label>
-    <input type="number" id="principal"><br>
-    <label>Taxa de juros (%):</label>
-    <input type="number" id="taxa"><br>
-    <label>Tempo (meses):</label>
-    <input type="number" id="tempo"><br>
-    <button onclick="calcular()">Calcular</button>
-    <button onclick="logout()">Sair</button>
+# Inicializa a aplicação Flask
+app = Flask(__name__)
 
-    <div>
-      <h3>Resultado</h3>
-      <p id="resultado"></p>
-      <p id="comparacao"></p>
-    </div>
+# Libera acesso CORS para o front-end (ex: GitHub Pages)
+CORS(app)
 
-    <div>
-      <h3>Histórico de Aplicações</h3>
-      <ul id="historico"></ul>
-    </div>
+# Rota básica para verificar se a API está funcionando
+@app.route("/")
+def home():
+    return "API JurosLator rodando com sucesso!"
 
-    <div>
-      <h3>Gráfico Comparativo</h3>
-      <canvas id="grafico" width="400" height="200"></canvas>
-    </div>
-  </div>
-</body>
-</html>
+# Rota para receber dados do front-end e retornar os cálculos
+@app.route("/calcular", methods=["POST"])
+def calcular():
+    dados = request.get_json()
+
+    try:
+        # Extrai os dados enviados pelo front-end
+        capital = float(dados["capital"])
+        taxa = float(dados["taxa"])
+        tempo = int(dados["tempo"])
+
+        # Cálculo de juros compostos
+        montante = capital * ((1 + taxa / 100) ** tempo)
+        juros = montante - capital
+
+        # Retorna os resultados
+        return jsonify({
+            "montante": round(montante, 2),
+            "juros": round(juros, 2)
+        })
+
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 400
+
+# Roda a aplicação localmente (útil para testes locais)
+if __name__ == "__main__":
+    app.run(debug=True)
