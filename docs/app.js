@@ -5,6 +5,12 @@ async function login() {
     const email = document.getElementById("loginEmail").value;
     const senha = document.getElementById("loginSenha").value;
 
+    // Se o usuário estiver logado, redireciona automaticamente para a home
+    if (window.location.pathname.includes("index.html") && localStorage.getItem("logado") === "true") {
+        window.location.href = "home.html";
+    }
+
+
     if (!email || !senha) {
         alert("Preencha e-mail e senha");
         return;
