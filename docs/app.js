@@ -11,63 +11,65 @@ fetch(`${apiUrl}/login`, {
   body: JSON.stringify({ email, senha }),
 })
  // ✅ URL correta do Render
-
-function showLogin() {
-    document.getElementById('loginContainer').style.display = 'block';
-    document.getElementById('cadastroContainer').style.display = 'none';
-    document.getElementById('calcContainer').style.display = 'none';
-}
-
-function showCadastro() {
-    document.getElementById('cadastroContainer').style.display = 'block';
-    document.getElementById('loginContainer').style.display = 'none';
-    document.getElementById('calcContainer').style.display = 'none';
-}
-
-function showCalc() {
-    document.getElementById('calcContainer').style.display = 'block';
-    document.getElementById('loginContainer').style.display = 'none';
-    document.getElementById('cadastroContainer').style.display = 'none';
-    carregarHistorico();
-}
+const backendUrl = "https://juroslator-2.onrender.com"; // substitua pela URL real da sua API
 
 async function login() {
-    const username = document.getElementById('loginUser').value;
-    const password = document.getElementById('loginPass').value;
+    const emailInput = document.getElementById("email");
+    const senhaInput = document.getElementById("senha");
 
-    const res = await fetch(`${backendUrl}/login`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({username, password})
-    });
-    if (res.ok) {
-        usuarioLogado = username;
-        showCalc();
-    } else {
-        alert('Falha ao fazer login.');
+    const email = emailInput.value;
+    const senha = senhaInput.value;
+
+    try {
+        const response = await fetch(`${backendUrl}/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, senha }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Login bem-sucedido!");
+            window.location.href = "home.html"; // ou outra página após login
+        } else {
+            alert(data.erro || "Erro ao fazer login");
+        }
+    } catch (error) {
+        console.error("Erro ao fazer login:", error);
+        alert("Erro de rede. Tente novamente.");
     }
 }
 
 async function cadastrar() {
-    const username = document.getElementById('cadastroUser').value;
-    const password = document.getElementById('cadastroPass').value;
+    const emailInput = document.getElementById("email");
+    const senhaInput = document.getElementById("senha");
 
-    const res = await fetch(`${backendUrl}/register`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({username, password})
-    });
-    if (res.ok) {
-        alert('Usuário cadastrado! Faça login.');
-        showLogin();
-    } else {
-        alert('Erro ao cadastrar.');
+    const email = emailInput.value;
+    const senha = senhaInput.value;
+
+    try {
+        const response = await fetch(`${backendUrl}/cadastro`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, senha }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("Cadastro realizado com sucesso!");
+        } else {
+            alert(data.erro || "Erro ao cadastrar");
+        }
+    } catch (error) {
+        console.error("Erro ao cadastrar:", error);
+        alert("Erro de rede. Tente novamente.");
     }
-}
-
-function logout() {
-    usuarioLogado = null;
-    showLogin();
 }
 
 async function calcular() {
