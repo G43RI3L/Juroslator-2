@@ -1,58 +1,57 @@
-<!-- index.html -->
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JurosLator</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script defer src="app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JurosLator</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- O defer garante que o app.js será carregado após o DOM -->
+  <script defer src="app.js"></script>
 </head>
 <body>
 
-    <!-- Login -->
-    <div id="loginContainer">
-        <h2>Login</h2>
-        <input type="email" id="loginEmail" placeholder="Usuário">
-        <input type="password" id="loginSenha" placeholder="Senha">
-        <button onclick="login()">Entrar</button>
-        <p>Não tem conta? <a href="#" onclick="showCadastro()">Cadastrar</a></p>
+  <!-- Login -->
+  <div id="loginContainer">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Usuário">
+    <input type="password" id="loginSenha" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+    <p>Não tem conta? <a href="#" onclick="showCadastro()">Cadastrar</a></p>
+  </div>
+
+  <!-- Cadastro -->
+  <div id="cadastroContainer" style="display: none;">
+    <h2>Cadastro</h2>
+    <input type="email" id="cadastroEmail" placeholder="Usuário">
+    <input type="password" id="cadastroSenha" placeholder="Senha">
+    <button onclick="cadastrar()">Cadastrar</button>
+    <p>Já tem conta? <a href="#" onclick="showLogin()">Voltar ao login</a></p>
+  </div>
+
+  <!-- Cálculo e Histórico -->
+  <div id="calcContainer" style="display: none;">
+    <h2>Simulador de Aplicações</h2>
+    <label>Valor Inicial:</label>
+    <input type="number" id="principal"><br>
+    <label>Taxa de Juros (%):</label>
+    <input type="number" id="taxa"><br>
+    <label>Tempo (meses):</label>
+    <input type="number" id="tempo"><br>
+    <button onclick="calcular()">Calcular</button>
+    <button onclick="logout()">Sair</button>
+
+    <h3 id="resultado"></h3>
+    <h3 id="comparacao"></h3>
+
+    <div>
+      <h3>Histórico de Aplicações</h3>
+      <ul id="historico"></ul>
     </div>
 
-    <!-- Cadastro -->
-    <div id="cadastroContainer" style="display: none;">
-        <h2>Cadastro</h2>
-        <input type="email" id="cadastroEmail" placeholder="Usuário">
-        <input type="password" id="cadastroSenha" placeholder="Senha">
-        <button onclick="cadastrar()">Cadastrar</button>
-        <p>Já tem conta? <a href="#" onclick="showLogin()">Voltar ao login</a></p>
-    </div>
-
-    <!-- Cálculo e Histórico -->
-    <div id="calcContainer" style="display: none;">
-        <h2>Simulador de Aplicações</h2>
-        <label>Valor Inicial:</label>
-        <input type="number" id="principal"><br>
-        <label>Taxa de Juros (%):</label>
-        <input type="number" id="taxa"><br>
-        <label>Tempo (meses):</label>
-        <input type="number" id="tempo"><br>
-        <button onclick="calcular()">Calcular</button>
-        <button onclick="logout()">Sair</button>
-
-        <h3 id="resultado"></h3>
-        <h3 id="comparacao"></h3>
-
-        <div>
-            <h3>Histórico de Aplicações</h3>
-            <ul id="historico"></ul>
-        </div>
-
-        <!-- Gráfico -->
-        <canvas id="graficoAplicacoes" width="600" height="300"></canvas>
-    </div>
+    <!-- Gráfico -->
+    <canvas id="graficoAplicacoes" width="600" height="300"></canvas>
+  </div>
 
 </body>
 </html>
