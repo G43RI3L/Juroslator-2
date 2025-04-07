@@ -1,80 +1,52 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>JurosLator</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script defer src="app.js"></script>
-  <script>
-    function showLogin() {
-      document.getElementById("loginContainer").style.display = "block";
-      document.getElementById("cadastroContainer").style.display = "none";
-      document.getElementById("calcContainer").style.display = "none";
+  <title>JurosLator - Login e Cadastro</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 400px;
+      margin: auto;
     }
-
-    function showCadastro() {
-      document.getElementById("loginContainer").style.display = "none";
-      document.getElementById("cadastroContainer").style.display = "block";
-      document.getElementById("calcContainer").style.display = "none";
+    h2 {
+      margin-top: 40px;
     }
-
-    function showCalc() {
-      document.getElementById("loginContainer").style.display = "none";
-      document.getElementById("cadastroContainer").style.display = "none";
-      document.getElementById("calcContainer").style.display = "block";
+    input {
+      display: block;
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 8px;
     }
-
-    window.onload = showLogin;
-  </script>
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #3a86ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 30px;
+    }
+    button:hover {
+      background-color: #265cbe;
+    }
+  </style>
 </head>
 <body>
+  <h1>Bem-vindo ao JurosLator</h1>
 
-  <!-- Login -->
-  <div id="loginContainer">
-    <h2>Login</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="senha" placeholder="Senha" />
-    <button onclick="login()">Entrar</button>
-    <p>Não tem conta? <a href="#" onclick="showCadastro()">Cadastrar</a></p>
-  </div>
+  <h2>Login</h2>
+  <input type="email" id="loginEmail" placeholder="E-mail" />
+  <input type="password" id="loginSenha" placeholder="Senha" />
+  <button onclick="login()">Entrar</button>
 
-  <!-- Cadastro -->
-  <div id="cadastroContainer" style="display: none;">
-    <h2>Cadastro</h2>
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="senha" placeholder="Senha" />
-    <button onclick="cadastrar()">Cadastrar</button>
-    <p>Já tem conta? <a href="#" onclick="showLogin()">Voltar ao login</a></p>
-  </div>
+  <h2>Cadastro</h2>
+  <input type="email" id="cadastroEmail" placeholder="E-mail" />
+  <input type="password" id="cadastroSenha" placeholder="Senha" />
+  <button onclick="cadastrar()">Cadastrar</button>
 
-  <!-- Cálculo e Histórico -->
-  <div id="calcContainer" style="display: none;">
-    <h2>Simulador de Aplicações</h2>
-
-    <label>Valor Inicial:</label>
-    <input type="number" id="principal"><br>
-
-    <label>Taxa de Juros (%):</label>
-    <input type="number" id="taxa"><br>
-
-    <label>Tempo (meses):</label>
-    <input type="number" id="tempo"><br>
-
-    <button onclick="calcular()">Calcular</button>
-    <button onclick="logout()">Sair</button>
-
-    <h3 id="resultado"></h3>
-    <h3 id="comparacao"></h3>
-
-    <div>
-      <h3>Histórico de Aplicações</h3>
-      <ul id="historico"></ul>
-    </div>
-
-    <canvas id="graficoAplicacoes" width="600" height="300"></canvas>
-  </div>
-
+  <script src="app.js"></script>
 </body>
 </html>
