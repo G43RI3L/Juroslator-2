@@ -6,50 +6,37 @@ if (window.location.pathname.includes("index.html") && localStorage.getItem("log
 
 // Função de login
 async function login() {
-    const email = document.getElementById("loginEmail").value;
-    const senha = document.getElementById("loginSenha").value;
+  const email = document.getElementById("loginEmail").value;
+  const senha = document.getElementById("loginSenha").value;
 
-    // Se o usuário estiver logado, redireciona automaticamente para a home
+  if (!email || !senha) {
+    alert("Por favor, preencha email e senha.");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("https://juroslator-2.onrender.com/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, senha })
+    });
+
+    const dados = await resposta.json();
+
     if (resposta.ok) {
-        const dados = await resposta.json();
-        console.log("Login realizado com sucesso:", dados);
-
-    // Salva no localStorage que o usuário está logado
-        localStorage.setItem("logado", "true");
-
-    // Redireciona para a tela de cálculos
-        window.location.href = "home.html";
+      localStorage.setItem("usuarioLogado", email);
+      window.location.href = "home.html";
+    } else {
+      alert(dados.erro || "Erro ao fazer login");
     }
-
-
-
-    if (!email || !senha) {
-        alert("Preencha e-mail e senha");
-        return;
-    }
-
-    try {
-        const response = await fetch(`${backendUrl}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, senha })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("Login realizado com sucesso!");
-            localStorage.setItem("usuario", email);
-            window.location.href = "home.html"; // Garante redirecionamento
-        } else {
-            alert(data.erro || "Erro ao fazer login");
-        }
-
-    } catch (error) {
-        console.error("Erro ao fazer login:", error);
-        alert("Erro de rede ao tentar login");
-    }
+  } catch (error) {
+    alert("Erro de rede ao tentar fazer login.");
+    console.error(error);
+  }
 }
+
 function logout() {
     localStorage.removeItem("logado");
     window.location.href = "index.html";
