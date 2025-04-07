@@ -37,6 +37,8 @@
 
   <script src="app.js"></script>
   <script>
+    <button onclick="logout()">Sair</button>
+
     // Garante que o usuário está logado antes de usar a página
     if (!localStorage.getItem("usuarioLogado")) {
       window.location.href = "index.html";
