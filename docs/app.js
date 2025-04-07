@@ -67,5 +67,5 @@ async function cadastrar() {
 
 
 // Inicia mostrando a tela de login
-showLogin();
+//showLogin();
 
