@@ -19,8 +19,39 @@ usuarios = {
 def home():
     return "API JurosLator rodando com sucesso!"
 
+@app.route("/login", methods=["POST", "OPTIONS"])
+def login():
+    if request.method == "OPTIONS":
+        # Resposta para preflight
+        return _build_cors_preflight_response()
+    
+    data = request.get_json()
+    email = data.get("email")
+    senha = data.get("senha")
+
+    if email in usuarios and usuarios[email] == senha:
+        return _corsify_actual_response(jsonify({"mensagem": "Login realizado com sucesso"}))
+    else:
+        return _corsify_actual_response(jsonify({"erro": "Credenciais inválidas"})), 401
+
+# Funções auxiliares para tratar CORS manualmente no preflight
+def _build_cors_preflight_response():
+    response = jsonify({'message': 'CORS preflight'})
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "*")
+    response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+    return response
+
+def _corsify_actual_response(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
+
 # Rota para receber dados do front-end e retornar os cálculos
-@app.route("/calcular", methods=["POST"])
+@app.route("/calcular", methods=["POST","OPTIONS"])
 def calcular():
     dados = request.get_json()
 
