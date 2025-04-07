@@ -21,7 +21,8 @@ async function login() {
 
         if (response.ok) {
             alert("Login realizado com sucesso!");
-            // Redirecionar ou exibir próxima tela se desejar
+            localStorage.setItem("usuario", email);
+            window.location.href = "home.html"; // Garante redirecionamento
         } else {
             alert(data.erro || "Erro ao fazer login");
         }
