@@ -1,4 +1,8 @@
 const backendUrl = "https://juroslator-2.onrender.com"; // URL da sua API no Render
+// Se o usuário estiver logado, redireciona automaticamente para a home
+if (window.location.pathname.includes("index.html") && localStorage.getItem("logado") === "true") {
+    window.location.href = "home.html";
+}
 
 // Função de login
 async function login() {
@@ -6,9 +10,17 @@ async function login() {
     const senha = document.getElementById("loginSenha").value;
 
     // Se o usuário estiver logado, redireciona automaticamente para a home
-    if (window.location.pathname.includes("index.html") && localStorage.getItem("logado") === "true") {
+    if (resposta.ok) {
+        const dados = await resposta.json();
+        console.log("Login realizado com sucesso:", dados);
+
+    // Salva no localStorage que o usuário está logado
+        localStorage.setItem("logado", "true");
+
+    // Redireciona para a tela de cálculos
         window.location.href = "home.html";
     }
+
 
 
     if (!email || !senha) {
@@ -37,6 +49,10 @@ async function login() {
         console.error("Erro ao fazer login:", error);
         alert("Erro de rede ao tentar login");
     }
+}
+function logout() {
+    localStorage.removeItem("logado");
+    window.location.href = "index.html";
 }
 
 // Função de cadastro
