@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JurosLator - Área do Usuário</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Bem-vindo ao JurosLator</h1>
+
+    <button onclick="logout()">Sair</button>
+
+    <h2>Simular Aplicação</h2>
+    <label for="capital">Capital Inicial (R$):</label>
+    <input type="number" id="capital" required />
+
+    <label for="taxa">Taxa de Juros (%):</label>
+    <input type="number" id="taxa" step="0.01" required />
+
+    <label for="tempo">Tempo (em meses):</label>
+    <input type="number" id="tempo" required />
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="resultado"></div>
+    <div id="comparacao"></div>
+
+    <h2>Histórico de Simulações</h2>
+    <ul id="historico"></ul>
+
+    <h2>Gráfico de Aplicações</h2>
+    <canvas id="graficoAplicacoes" width="400" height="200"></canvas>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Garante que o usuário está logado antes de usar a página
+    if (!localStorage.getItem("usuarioLogado")) {
+      window.location.href = "index.html";
+    } else {
+      usuarioLogado = localStorage.getItem("usuarioLogado");
+      carregarHistorico();
+    }
+
+    function logout() {
+      localStorage.removeItem("usuarioLogado");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
