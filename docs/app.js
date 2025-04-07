@@ -1,7 +1,16 @@
 // app.js
 
 let usuarioLogado = null;
-const backendUrl = "https://juroslator-2.onrender.com"; // ✅ URL correta do Render
+const apiUrl = "https://juroslator-2.onrender.com";
+
+fetch(`${apiUrl}/login`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ email, senha }),
+})
+ // ✅ URL correta do Render
 
 function showLogin() {
     document.getElementById('loginContainer').style.display = 'block';
