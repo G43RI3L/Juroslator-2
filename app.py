@@ -34,6 +34,25 @@ def login():
     else:
         return _corsify_actual_response(jsonify({"erro": "Credenciais inválidas"})), 401
 
+@app.route("/cadastro", methods=["POST", "OPTIONS"])
+def cadastro():
+    if request.method == "OPTIONS":
+        return _build_cors_preflight_response()
+
+    data = request.get_json()
+    email = data.get("email")
+    senha = data.get("senha")
+
+    if not email or not senha:
+        return _corsify_actual_response(jsonify({"erro": "E-mail e senha são obrigatórios"})), 400
+
+    if email in usuarios:
+        return _corsify_actual_response(jsonify({"erro": "Usuário já cadastrado"})), 400
+
+    usuarios[email] = senha
+    return _corsify_actual_response(jsonify({"mensagem": "Cadastro realizado com sucesso"}))
+
+
 # Funções auxiliares para tratar CORS manualmente no preflight
 def _build_cors_preflight_response():
     response = jsonify({'message': 'CORS preflight'})
