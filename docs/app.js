@@ -1,24 +1,33 @@
 // app.js
 
+const backendUrl = "https://juroslator-2.onrender.com";
 let usuarioLogado = null;
-const apiUrl = "https://juroslator-2.onrender.com";
 
-fetch(`${apiUrl}/login`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ email, senha }),
-})
- // ✅ URL correta do Render
-const backendUrl = "https://juroslator-2.onrender.com"; // substitua pela URL real da sua API
+// Exibe a tela de login e esconde as outras
+function showLogin() {
+    document.getElementById("loginContainer").style.display = "block";
+    document.getElementById("cadastroContainer").style.display = "none";
+    document.getElementById("calcContainer").style.display = "none";
+}
+
+// Exibe a tela de cadastro
+function showCadastro() {
+    document.getElementById("loginContainer").style.display = "none";
+    document.getElementById("cadastroContainer").style.display = "block";
+    document.getElementById("calcContainer").style.display = "none";
+}
+
+// Exibe a tela principal após login
+function showCalc() {
+    document.getElementById("loginContainer").style.display = "none";
+    document.getElementById("cadastroContainer").style.display = "none";
+    document.getElementById("calcContainer").style.display = "block";
+    carregarHistorico();
+}
 
 async function login() {
-    const emailInput = document.getElementById("email");
-    const senhaInput = document.getElementById("senha");
-
-    const email = emailInput.value;
-    const senha = senhaInput.value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
     try {
         const response = await fetch(`${backendUrl}/login`, {
@@ -33,7 +42,8 @@ async function login() {
 
         if (response.ok) {
             alert("Login bem-sucedido!");
-            window.location.href = "home.html"; // ou outra página após login
+            usuarioLogado = email;
+            showCalc();
         } else {
             alert(data.erro || "Erro ao fazer login");
         }
@@ -44,11 +54,8 @@ async function login() {
 }
 
 async function cadastrar() {
-    const emailInput = document.getElementById("email");
-    const senhaInput = document.getElementById("senha");
-
-    const email = emailInput.value;
-    const senha = senhaInput.value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
     try {
         const response = await fetch(`${backendUrl}/cadastro`, {
@@ -62,7 +69,8 @@ async function cadastrar() {
         const data = await response.json();
 
         if (response.ok) {
-            alert("Cadastro realizado com sucesso!");
+            alert("Cadastro realizado com sucesso! Faça login.");
+            showLogin();
         } else {
             alert(data.erro || "Erro ao cadastrar");
         }
@@ -77,16 +85,20 @@ async function calcular() {
     const taxa = parseFloat(document.getElementById('taxa').value);
     const tempo = parseFloat(document.getElementById('tempo').value);
 
+    if (!usuarioLogado) {
+        alert("Você precisa estar logado.");
+        return;
+    }
+
     const res = await fetch(`${backendUrl}/calcular`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({principal, taxa, tempo, usuario: usuarioLogado})
+        body: JSON.stringify({ principal, taxa, tempo, usuario: usuarioLogado })
     });
 
     const data = await res.json();
     document.getElementById('resultado').innerText = `Juros: R$ ${data.juros.toFixed(2)} | Total: R$ ${data.montante_final.toFixed(2)}`;
-    document.getElementById('comparacao').innerText = `Desempenho comparado à SELIC: ${data.comparacao.toFixed(2)}%`;
-
+    document.getElementById('comparacao').innerText = `Comparação com SELIC: ${data.comparacao.toFixed(2)}%`;
     carregarHistorico();
 }
 
@@ -125,6 +137,11 @@ async function deletarAplicacao(id) {
     carregarHistorico();
 }
 
+function logout() {
+    usuarioLogado = null;
+    showLogin();
+}
+
 function renderizarGrafico(labels, dados) {
     const ctx = document.getElementById('graficoAplicacoes').getContext('2d');
     new Chart(ctx, {
@@ -151,4 +168,6 @@ function renderizarGrafico(labels, dados) {
     });
 }
 
-showLogin(); // Inicia com a tela de login
+// Inicia mostrando a tela de login
+showLogin();
+
