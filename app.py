@@ -1,11 +1,18 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os 
 
 # Inicializa a aplicação Flask
 app = Flask(__name__)
 
 # Libera acesso CORS para o front-end (ex: GitHub Pages)
 CORS(app)
+
+# Simula um "banco de dados" temporário
+usuarios = {
+    "teste@teste.com": "1234"
+}
+
 
 # Rota básica para verificar se a API está funcionando
 @app.route("/")
