@@ -72,6 +72,40 @@ async function cadastrar() {
         console.error("Erro ao cadastrar:", error);
         alert("Erro de rede ao tentar cadastro");
     }
+    
+}
+async function calcular() {
+  const capital = parseFloat(document.getElementById("capital").value);
+  const taxa = parseFloat(document.getElementById("taxa").value);
+  const tempo = parseInt(document.getElementById("tempo").value);
+
+  if (isNaN(capital) || isNaN(taxa) || isNaN(tempo)) {
+    alert("Preencha todos os campos corretamente!");
+    return;
+  }
+
+  try {
+    const resposta = await fetch("https://juroslator-2.onrender.com/calcular", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ capital, taxa, tempo })
+    });
+
+    const dados = await resposta.json();
+
+    if (resposta.ok) {
+      document.getElementById("resultado").innerHTML = `
+        <p><strong>Montante Final:</strong> R$ ${dados.montante}</p>
+        <p><strong>Juros:</strong> R$ ${dados.juros}</p>
+      `;
+    } else {
+      alert("Erro: " + (dados.erro || "não foi possível calcular"));
+    }
+  } catch (erro) {
+    alert("Erro ao conectar com a API: " + erro.message);
+  }
 }
 
 
