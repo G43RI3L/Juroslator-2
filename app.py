@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 
 # Libera acesso CORS para o front-end (ex: GitHub Pages)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Simula um "banco de dados" temporário
 usuarios = {
