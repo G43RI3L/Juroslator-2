@@ -6,6 +6,55 @@
   <title>JurosLator - Área do Usuário</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 0.6rem 1.2rem;
+      margin-right: 1rem;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    #resultado, #comparacao {
+      background: #f0f8ff;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -37,9 +86,7 @@
 
   <script src="app.js"></script>
   <script>
-    
-
-    // Garante que o usuário está logado antes de usar a página
+    // Verifica se usuário está logado
     if (!localStorage.getItem("usuarioLogado")) {
       window.location.href = "index.html";
     } else {
