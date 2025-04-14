@@ -65,10 +65,12 @@ def calcular():
 
         montante = capital * ((1 + taxa / 100) ** tempo)
         juros = montante - capital
+        mensal = juros / tempo if tempo > 0 else 0
 
         return jsonify({
             "montante": round(montante, 2),
-            "juros": round(juros, 2)
+            "juros": round(juros, 2),
+            "mensal": round(mensal, 2)
         })
 
     except Exception as e:
@@ -81,6 +83,12 @@ def aplicar_cors(resposta):
     resposta.headers["Access-Control-Allow-Headers"] = "Content-Type"
     resposta.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, DELETE"
     return resposta
+
+# Executa o servidor localmente ou na porta definida pelo Render
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port, debug=True)
+
 
 # Executa o servidor localmente ou na porta definida pelo Render
 if __name__ == "__main__":
