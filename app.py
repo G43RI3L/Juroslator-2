@@ -2,14 +2,17 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 
+
 # Inicializa a aplicação Flask
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Libera CORS para todas as rotas
+
 
 # Simula um "banco de dados" temporário de usuários
 usuarios = {
     "teste@teste.com": "1234"
 }
+
 
 # Rota básica para verificar se a API está online
 @app.route("/")
@@ -31,6 +34,7 @@ def login():
     else:
         return jsonify({"erro": "Credenciais inválidas"}), 401
 
+
 # Rota para cadastro de novos usuários
 @app.route("/cadastro", methods=["POST", "OPTIONS"])
 def cadastro():
@@ -49,6 +53,7 @@ def cadastro():
 
     usuarios[email] = senha
     return jsonify({"mensagem": "Cadastro realizado com sucesso"})
+
 
 # Rota para cálculo de juros compostos
 @app.route("/calcular", methods=["POST", "OPTIONS"])
