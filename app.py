@@ -36,6 +36,7 @@ def login():
 
 
 # Rota para cadastro de novos usuários
+
 @app.route("/cadastro", methods=["POST", "OPTIONS"])
 def cadastro():
     if request.method == "OPTIONS":
