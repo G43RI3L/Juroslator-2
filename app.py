@@ -4,6 +4,7 @@ import os
 
 
 # Inicializa a aplicação Flask
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Libera CORS para todas as rotas
 
