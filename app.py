@@ -18,6 +18,7 @@ usuarios = {
 
 
 # Rota básica para verificar se a API está online
+
 @app.route("/")
 def home():
     return "API JurosLator rodando com sucesso!"
